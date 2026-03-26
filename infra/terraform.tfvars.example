@@ -29,8 +29,8 @@ allowed_ssh_cidr = "YOUR_HOME_IP/32"
 # Domain registered in Cloudflare — NOT Route 53
 domain_name = "yuchia.dev"
 
-# Subdomain prefix — "app" → app.yuchia.dev  |  "@" → yuchia.dev (apex)
-subdomain = "app"
+# Subdomain prefix — "facetime" → facetime.yuchia.dev  |  "@" → yuchia.dev (apex)
+subdomain = "facetime"
 
 # Found in Cloudflare Dashboard → yuchia.dev → Overview → right sidebar → Zone ID
 cloudflare_zone_id = "YOUR_CLOUDFLARE_ZONE_ID"

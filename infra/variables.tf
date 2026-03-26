@@ -70,7 +70,7 @@ variable "domain_name" {
 }
 
 variable "subdomain" {
-  description = "Subdomain for the A record ('app' → app.yuchia.dev, '@' → apex yuchia.dev)"
+  description = "Subdomain for the A record ('facetime' → facetime.yuchia.dev, '@' → apex yuchia.dev)"
   type        = string
-  default     = "app"
+  default     = "facetime"
 }

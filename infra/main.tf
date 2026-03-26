@@ -167,7 +167,7 @@ locals {
 
 resource "cloudflare_record" "app" {
   zone_id = var.cloudflare_zone_id
-  name    = var.subdomain # "@" = apex, "app" = app.yuchia.dev, etc.
+  name    = var.subdomain # "@" = apex, "facetime" = facetime.yuchia.dev, etc.
   content = aws_eip.app.public_ip
   type    = "A"
   proxied = true # Required for HTTPS Edge Certificates in Cloudflare
@@ -405,7 +405,7 @@ COMPOSEEOF
     MEDIASOUP_ANNOUNCED_IP=$PUBLIC_IP
     
     # Used by the frontend and clients
-    CLIENT_ORIGIN=https://app.yuchia.dev #Replace this with your domain
+    CLIENT_ORIGIN=https://facetime.yuchia.dev #Replace this with your domain
     
     # Docker configuration (defaults, will be replaced by GitHub Actions)
     CLIENT_IMAGE=yuchia329/facetime-client:latest #REPLACE THIS with your DockerHub repository
