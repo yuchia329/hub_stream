@@ -407,7 +407,7 @@ COMPOSEEOF
     # Used by the frontend and clients
     BACKEND_URL=http://server:4000
     
-    CLIENT_ORIGIN=https://facetime.yuchia.dev #Replace this with your domain
+    CLIENT_ORIGIN=https://${local.fqdn}
     
     # Docker configuration (defaults, will be replaced by GitHub Actions)
     CLIENT_IMAGE=yuchia329/facetime-client:latest #REPLACE THIS with your DockerHub repository
