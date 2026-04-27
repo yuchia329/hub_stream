@@ -23,13 +23,6 @@ export default function LobbyPage() {
     router.push(`${basePath}/${room}?name=${encodeURIComponent(displayName.trim())}`);
   }
 
-  function handleCreateRoom() {
-    if (!displayName.trim()) return;
-    setIsJoining(true);
-    const room = uuidv4().slice(0, 8);
-    router.push(`${basePath}/${room}?name=${encodeURIComponent(displayName.trim())}`);
-  }
-
   const sfuFeatures = [
     { label: 'Ultra-low latency' },
     { label: 'End-to-end encrypted' },
@@ -88,6 +81,22 @@ export default function LobbyPage() {
             <label htmlFor="displayName" className="form-label">
               Your Name
             </label>
+            <div style={{ display: 'flex', gap: '8px', marginBottom: '8px' }}>
+              {['🦫 Beaver', '🐶 Dog', '🦉 Owl'].map((n) => (
+                <button
+                  key={n}
+                  type="button"
+                  onClick={() => setDisplayName(n)}
+                  style={{
+                    flex: 1, padding: '6px', background: 'rgba(255,255,255,0.05)',
+                    border: displayName === n ? '1px solid #6366f1' : '1px solid rgba(255,255,255,0.1)',
+                    borderRadius: '6px', color: '#fff', fontSize: '0.85rem', cursor: 'pointer', transition: 'all 0.2s'
+                  }}
+                >
+                  {n}
+                </button>
+              ))}
+            </div>
             <input
               id="displayName"
               type="text"
@@ -106,6 +115,22 @@ export default function LobbyPage() {
             <label htmlFor="roomId" className="form-label">
               Room ID <span className="label-hint">(leave blank to create new)</span>
             </label>
+            <div style={{ display: 'flex', gap: '8px', marginBottom: '8px' }}>
+              {['Lobby', 'Gaming', 'Chill'].map((r) => (
+                <button
+                  key={r}
+                  type="button"
+                  onClick={() => setRoomId(r)}
+                  style={{
+                    flex: 1, padding: '6px', background: 'rgba(255,255,255,0.05)',
+                    border: roomId === r ? '1px solid #6366f1' : '1px solid rgba(255,255,255,0.1)',
+                    borderRadius: '6px', color: '#fff', fontSize: '0.85rem', cursor: 'pointer', transition: 'all 0.2s'
+                  }}
+                >
+                  {r}
+                </button>
+              ))}
+            </div>
             <input
               id="roomId"
               type="text"
@@ -130,14 +155,6 @@ export default function LobbyPage() {
               ) : (
                 '→ Join Room'
               )}
-            </button>
-            <button
-              type="button"
-              className="btn btn-secondary"
-              onClick={handleCreateRoom}
-              disabled={!displayName.trim() || isJoining}
-            >
-              + Create New Room
             </button>
           </div>
         </form>

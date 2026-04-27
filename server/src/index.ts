@@ -24,7 +24,16 @@ async function main(): Promise<void> {
   });
 
   // Visitor log helper
-  const logVisitorEvent = (ip: string | string[] | undefined, mode: string, eventType: string) => {
+  const logVisitorEvent = (ip: string | string[] | undefined, cookieString: string | undefined, userAgent: string | undefined, mode: string, eventType: string) => {
+    let visitorId = 'unknown';
+    if (cookieString) {
+      const match = cookieString.match(/visitor_id=([^;]+)/);
+      if (match) visitorId = match[1];
+    }
+    console.log('useragent: ', userAgent)
+    const isMobile = userAgent ? /Mobi|Android|iPhone|iPad/i.test(userAgent) : false;
+    const deviceType = isMobile ? 'Mobile' : 'Desktop';
+
     const timestamp = new Date().toISOString();
     const logDir = path.join(__dirname, '..', 'log');
     if (!fs.existsSync(logDir)) {
@@ -32,7 +41,7 @@ async function main(): Promise<void> {
     }
     const logFile = path.join(logDir, 'visitors.log');
     const resolvedIp = Array.isArray(ip) ? ip[0] : (ip || 'unknown');
-    fs.appendFileSync(logFile, `${timestamp} - IP: ${resolvedIp} - Mode: ${mode} - Event: ${eventType}\n`);
+    fs.appendFileSync(logFile, `${timestamp} - IP: ${resolvedIp} - ID: ${visitorId} - Device: ${deviceType} - Mode: ${mode} - Event: ${eventType}\n`);
   };
 
   const server = http.createServer(app);
@@ -47,9 +56,9 @@ async function main(): Promise<void> {
     ws.on('pong', () => { ws.isAlive = true; });
     const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
     console.log(`🟢 New SFU WebSocket connection from [${ip}]`);
-    
-    logVisitorEvent(ip, 'SFU', 'JOIN');
-    ws.on('close', () => { logVisitorEvent(ip, 'SFU', 'LEAVE'); });
+
+    logVisitorEvent(ip, req.headers.cookie, req.headers['user-agent'], 'SFU', 'JOIN');
+    ws.on('close', () => { logVisitorEvent(ip, req.headers.cookie, req.headers['user-agent'], 'SFU', 'LEAVE'); });
 
     handleConnection(ws);
   });
@@ -60,8 +69,8 @@ async function main(): Promise<void> {
     const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
     console.log(`🟩 New P2P WebSocket connection from [${ip}]`);
 
-    logVisitorEvent(ip, 'P2P', 'JOIN');
-    ws.on('close', () => { logVisitorEvent(ip, 'P2P', 'LEAVE'); });
+    logVisitorEvent(ip, req.headers.cookie, req.headers['user-agent'], 'P2P', 'JOIN');
+    ws.on('close', () => { logVisitorEvent(ip, req.headers.cookie, req.headers['user-agent'], 'P2P', 'LEAVE'); });
 
     handleP2PConnection(ws);
   });
