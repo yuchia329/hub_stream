@@ -82,7 +82,7 @@ export default function LobbyPage() {
               Your Name
             </label>
             <div style={{ display: 'flex', gap: '8px', marginBottom: '8px' }}>
-              {['🦫 Beaver', '🐶 Dog', '🦉 Owl'].map((n) => (
+              {['🦫 Beaver', '🐹 Hamster', '🐨 Koala'].map((n) => (
                 <button
                   key={n}
                   type="button"
@@ -116,7 +116,7 @@ export default function LobbyPage() {
               Room ID <span className="label-hint">(leave blank to create new)</span>
             </label>
             <div style={{ display: 'flex', gap: '8px', marginBottom: '8px' }}>
-              {['Lobby', 'Gaming', 'Chill'].map((r) => (
+              {['1', '2', '3'].map((r) => (
                 <button
                   key={r}
                   type="button"

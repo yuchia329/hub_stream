@@ -94,8 +94,6 @@ jobs:
             --comment "Deploying $IMAGE_TAG" \
             --parameters "commands=[ \
               \"cd /opt/hubstream\", \
-              \"sudo sed -i 's|^CLIENT_IMAGE=.*|CLIENT_IMAGE=$DOCKERHUB_USERNAME/hubstream-client:$IMAGE_TAG|' .env.prod\", \
-              \"sudo sed -i 's|^SERVER_IMAGE=.*|SERVER_IMAGE=$DOCKERHUB_USERNAME/hubstream-server:$IMAGE_TAG|' .env.prod\", \
               \"sudo docker compose -f docker-compose.prod.yml --env-file .env.prod pull\", \
               \"sudo docker compose -f docker-compose.prod.yml --env-file .env.prod up -d\" \
             ]" \
