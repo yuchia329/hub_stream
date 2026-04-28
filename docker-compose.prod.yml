@@ -8,12 +8,9 @@ services:
     image: ${SERVER_IMAGE} # Injected dynamically via the .env.prod file
     restart: always
     network_mode: host
-    environment:
-      - PORT=4000
-      - NODE_ENV=production
-      - MEDIASOUP_LISTEN_IP=0.0.0.0
-      - MEDIASOUP_ANNOUNCED_IP=${PUBLIC_IP}
-      - CLIENT_ORIGIN=https://hubstream.yuchia.dev # Replace this with your domain
+    security_opt:
+      - seccomp:unconfined
+    env_file: .env.prod
     volumes:
       - ./log:/app/log
     logging:
@@ -30,9 +27,7 @@ services:
       - "80:3000"
     extra_hosts:
       - "server:host-gateway"
-    environment:
-      - NODE_ENV=production
-      - BACKEND_URL=http://server:4000
+    env_file: .env.prod
     depends_on:
       - server
     logging:
@@ -40,3 +35,20 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
+
+  # ── cAdvisor / Hardware Metrics Exporter ──────────────────────────────────────
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    container_name: cadvisor
+    restart: always
+    ports:
+      - "8080:8080" # Exposed to the host so your Kubernetes Prometheus can scrape it
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /dev/disk/:/dev/disk:ro
+    privileged: true
+    devices:
+      - /dev/kmsg

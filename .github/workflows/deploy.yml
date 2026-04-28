@@ -63,7 +63,11 @@ jobs:
           role-to-assume: arn:aws:iam::554771082581:role/hubstream-github-actions-deploy-role # Change to your own AWS Account ID!
           aws-region: us-east-1
 
-      # 6. Execute deployment commands via AWS Systems Manager
+      # 6. Upload docker-compose.prod.yml to S3
+      - name: Upload configuration to S3
+        run: aws s3 cp docker-compose.prod.yml s3://ycdev-infrastructure/hubstream/docker-compose.prod.yml
+
+      # 7. Execute deployment commands via AWS Systems Manager
       - name: Deploy to EC2 via SSM Run Command
         env:
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
@@ -94,6 +98,7 @@ jobs:
             --comment "Deploying $IMAGE_TAG" \
             --parameters "commands=[ \
               \"cd /opt/hubstream\", \
+              \"sudo aws s3 cp s3://ycdev-infrastructure/hubstream/docker-compose.prod.yml docker-compose.prod.yml\", \
               \"sudo docker compose -f docker-compose.prod.yml --env-file .env.prod pull\", \
               \"sudo docker compose -f docker-compose.prod.yml --env-file .env.prod up -d\" \
             ]" \
