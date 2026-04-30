@@ -131,8 +131,9 @@ export function startMetricsPolling() {
           activeIds.add(consumer.id);
           try {
             const stats = await consumer.getStats();
+            // console.log('consumer stats: ', stats)
             stats.forEach((stat: any) => {
-              if (stat.type === 'remote-inbound-rtp' && stat.roundTripTime !== undefined) {
+              if (stat.type === 'inbound-rtp' && stat.roundTripTime !== undefined) {
                 webrtcRttHistogram.labels(consumer.kind).observe(stat.roundTripTime * 1000); // RTT is in seconds, convert to ms
               }
               if (stat.type === 'outbound-rtp') {
