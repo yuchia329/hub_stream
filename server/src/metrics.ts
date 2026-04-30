@@ -53,6 +53,12 @@ export const mediasoupWorkerCpuTime = new client.Counter({
   labelNames: ['pid', 'type'],
 });
 
+//ICE
+export const webrtcIceSetupFailuresTotal = new client.Counter({
+  name: 'webrtc_ice_setup_failures_total',
+  help: 'Total WebRTC ICE connection setup failures',
+});
+
 register.registerMetric(clientPingHistogram);
 register.registerMetric(webrtcJitterHistogram);
 register.registerMetric(webrtcRttHistogram);
@@ -60,6 +66,7 @@ register.registerMetric(webrtcPacketsLostTotal);
 register.registerMetric(webrtcBytesTotal);
 register.registerMetric(mediasoupWorkerMemoryUsage);
 register.registerMetric(mediasoupWorkerCpuTime);
+register.registerMetric(webrtcIceSetupFailuresTotal);
 
 const lastStats = new Map<string, { packetsLost: number; byteCount: number; pliCount: number; firCount: number; nackCount: number }>();
 const lastWorkerCpuTime = new Map<number, { utime: number; stime: number }>();
