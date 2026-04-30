@@ -97,8 +97,8 @@ jobs:
             --document-name "AWS-RunShellScript" \
             --comment "Deploying $IMAGE_TAG" \
             --parameters "commands=[ \
-              \"cd /home/ubuntu/hubstream/kubernetes", \
-              \"bash update_script.sh", \
+              \"cd /home/ubuntu/hubstream/kubernetes\", \
+              \"bash update_script.sh\", \
             ]" \
             --query "Command.CommandId" \
             --output text)
