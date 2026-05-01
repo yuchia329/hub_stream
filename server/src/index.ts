@@ -38,7 +38,7 @@ async function main(): Promise<void> {
   });
 
   // Visitor log helper
-  const logVisitorEvent = (ip: string | string[] | undefined, cookieString: string | undefined, userAgent: string | undefined, mode: string, eventType: string) => {
+  const logVisitorEvent = (ip: string | string[] | undefined, country: string | undefined, cookieString: string | undefined, userAgent: string | undefined, mode: string, eventType: string) => {
     let visitorId = 'unknown';
     if (cookieString) {
       const match = cookieString.match(/visitor_id=([^;]+)/);
@@ -54,8 +54,8 @@ async function main(): Promise<void> {
     }
     const logFile = path.join(logDir, 'visitors.log');
     const resolvedIp = Array.isArray(ip) ? ip[0] : (ip || 'unknown');
-    console.log(`${timestamp} - IP: ${resolvedIp} - ID: ${visitorId} - Device: ${deviceType} - Mode: ${mode} - Event: ${eventType}\n`)
-    fs.appendFileSync(logFile, `${timestamp} - IP: ${resolvedIp} - ID: ${visitorId} - Device: ${deviceType} - Mode: ${mode} - Event: ${eventType}\n`);
+    console.log(`${timestamp} - IP: ${resolvedIp} - Country: ${country} - ID: ${visitorId} - Device: ${deviceType} - Mode: ${mode} - Event: ${eventType}\n`)
+    fs.appendFileSync(logFile, `${timestamp} - IP: ${resolvedIp} - Country: ${country} - ID: ${visitorId} - Device: ${deviceType} - Mode: ${mode} - Event: ${eventType}\n`);
   };
 
   const server = http.createServer(app);
@@ -68,11 +68,10 @@ async function main(): Promise<void> {
   wss.on('connection', (ws: any, req) => {
     ws.isAlive = true;
     ws.on('pong', () => { ws.isAlive = true; });
-    const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
-    console.log(`🟢 New SFU WebSocket connection from [${ip}]`);
-
-    logVisitorEvent(ip, req.headers.cookie, req.headers['user-agent'], 'SFU', 'JOIN');
-    ws.on('close', () => { logVisitorEvent(ip, req.headers.cookie, req.headers['user-agent'], 'SFU', 'LEAVE'); });
+    const ip = req.headers['cf-connecting-ip'] || req.headers['x-forwarded-for'] || req.socket.remoteAddress || req.headers["x-real-ip"];
+    const country = req.headers["cf-ipcountry"] || 'unknown';
+    logVisitorEvent(ip, country, req.headers.cookie, req.headers['user-agent'], 'SFU', 'JOIN');
+    ws.on('close', () => { logVisitorEvent(ip, country, req.headers.cookie, req.headers['user-agent'], 'SFU', 'LEAVE'); });
 
     handleConnection(ws);
   });
@@ -80,11 +79,10 @@ async function main(): Promise<void> {
   wssP2P.on('connection', (ws: any, req) => {
     ws.isAlive = true;
     ws.on('pong', () => { ws.isAlive = true; });
-    const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
-    console.log(`🟩 New P2P WebSocket connection from [${ip}]`);
-
-    logVisitorEvent(ip, req.headers.cookie, req.headers['user-agent'], 'P2P', 'JOIN');
-    ws.on('close', () => { logVisitorEvent(ip, req.headers.cookie, req.headers['user-agent'], 'P2P', 'LEAVE'); });
+    const ip = req.headers['cf-connecting-ip'] || req.headers['x-forwarded-for'] || req.socket.remoteAddress || req.headers["x-real-ip"];
+    const country = req.headers["cf-ipcountry"] || 'unknown';
+    logVisitorEvent(ip, country, req.headers.cookie, req.headers['user-agent'], 'P2P', 'JOIN');
+    ws.on('close', () => { logVisitorEvent(ip, country, req.headers.cookie, req.headers['user-agent'], 'P2P', 'LEAVE'); });
 
     handleP2PConnection(ws);
   });
