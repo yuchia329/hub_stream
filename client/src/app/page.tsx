@@ -169,7 +169,7 @@ export default function LobbyPage() {
 
         <div className="lobby-footer" style={{ textAlign: 'center', marginTop: '1.5rem' }}>
           <a
-            href="https://github.com/yuchia329/hubstream"
+            href="https://github.com/yuchia329/hub_stream"
             target="_blank"
             rel="noopener noreferrer"
             style={{ color: 'var(--text-secondary, #94a3b8)', textDecoration: 'none', fontSize: '0.875rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}

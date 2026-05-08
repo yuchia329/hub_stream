@@ -26,7 +26,7 @@ The project is structured across three primary directories:
 You do **not** need Docker to run this application locally! Simply clone the repository and run the unified startup script:
 
 ```bash
-git clone https://github.com/yuchia329/hubstream.git
+git clone https://github.com/yuchia329/hub_stream.git
 cd hubstream
 
 # Safely installs dependencies and intelligently boots BOTH the client and server!
