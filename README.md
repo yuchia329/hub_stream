@@ -1,11 +1,18 @@
 # Hubstream WebRTC Clone
 
-A full-stack, scalable video conferencing application built with **Next.js**, **Node.js**, **Mediasoup**, and **Terraform AWS**.
+[![Live Demo](https://img.shields.io/badge/Demo-hubstream.yuchia.dev-success?style=flat-square)](https://hubstream.yuchia.dev)
+![Next.js](https://img.shields.io/badge/Next.js-black?style=flat-square&logo=next.js)
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=nodedotjs)
+![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=flat-square&logo=amazon-aws&logoColor=white)
+
+A full-stack, scalable video conferencing application built with Next.js, Node.js, Mediasoup, and Terraform AWS.
 
 This repository is designed to demonstrate high-performance real-time video streaming capabilities. It elegantly supports both peer-to-peer (P2P) mesh networking for small rooms, and Selective Forwarding Unit (SFU) topologies via a dedicated media backend for large-scale enterprise meetings.
 
-[![Hubstream App](https://raw.githubusercontent.com/yuchia329/hub_stream/main/screenshot.png)](https://hubstream.yuchia.dev)
 *[Live Demo: https://hubstream.yuchia.dev](https://hubstream.yuchia.dev)*
+
+![Hubstream Screenshot](https://raw.githubusercontent.com/yuchia329/hubstream/main/screenshot.png)
+
 
 ## Repository Structure
 
