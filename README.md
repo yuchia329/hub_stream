@@ -4,7 +4,8 @@ A full-stack, scalable video conferencing application built with **Next.js**, **
 
 This repository is designed to demonstrate high-performance real-time video streaming capabilities. It elegantly supports both peer-to-peer (P2P) mesh networking for small rooms, and Selective Forwarding Unit (SFU) topologies via a dedicated media backend for large-scale enterprise meetings.
 
-![Hubstream App](https://raw.githubusercontent.com/yuchia329/hubstream/main/screenshot.png) *(Preview placeholder)*
+[![Hubstream App](https://raw.githubusercontent.com/yuchia329/hub_stream/main/screenshot.png)](https://hubstream.yuchia.dev)
+*[Live Demo: https://hubstream.yuchia.dev](https://hubstream.yuchia.dev)*
 
 ## Repository Structure
 
